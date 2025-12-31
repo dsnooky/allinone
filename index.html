@@ -41,6 +41,29 @@ header h1{font-size:2.3rem}
   padding:12px 18px;cursor:pointer
 }
 .suggestions div:hover{background:#f0f0f0}
+  <!-- LGU SERVICES -->
+<h2 style="text-align:center;color:#0038a8;margin-bottom:15px">
+🏛 LGU Services by City
+</h2>
+
+<div style="max-width:450px;margin:0 auto 30px">
+<select id="citySelect" onchange="loadLGU()" style="
+  width:100%;
+  padding:14px;
+  border-radius:30px;
+  border:none;
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
+">
+<option value="">Select City / Municipality</option>
+<option value="manila">Manila</option>
+<option value="quezon">Quezon City</option>
+<option value="cebu">Cebu City</option>
+<option value="davao">Davao City</option>
+<option value="makati">Makati</option>
+</select>
+</div>
+
+<div class="tools" id="lguServices"></div>
 
 /* TOOLS */
 .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px}
