@@ -226,5 +226,76 @@ function closeGuide(){
 }
 </script>
 
+  <script>
+const lguData = {
+  manila: [
+    {
+      name: "Barangay Clearance",
+      desc: "Apply for Barangay Clearance in Manila.",
+      link: "https://www.manila.gov.ph"
+    },
+    {
+      name: "Mayor’s Permit",
+      desc: "Business permit application for Manila.",
+      link: "https://www.manila.gov.ph"
+    }
+  ],
+  quezon: [
+    {
+      name: "QC E-Services",
+      desc: "Online LGU services of Quezon City.",
+      link: "https://qceservices.quezoncity.gov.ph"
+    },
+    {
+      name: "Business Permit",
+      desc: "Apply business permit in QC.",
+      link: "https://quezoncity.gov.ph"
+    }
+  ],
+  cebu: [
+    {
+      name: "Cebu City Services",
+      desc: "LGU services of Cebu City.",
+      link: "https://www.cebucity.gov.ph"
+    }
+  ],
+  davao: [
+    {
+      name: "Davao City Online",
+      desc: "LGU services and transactions.",
+      link: "https://www.davaocity.gov.ph"
+    }
+  ],
+  makati: [
+    {
+      name: "Makati E-Services",
+      desc: "Barangay, permits & local services.",
+      link: "https://www.makati.gov.ph"
+    }
+  ]
+};
+
+function loadLGU(){
+  const city = document.getElementById("citySelect").value;
+  const container = document.getElementById("lguServices");
+  container.innerHTML = "";
+
+  if(!city) return;
+
+  lguData[city].forEach(service=>{
+    container.innerHTML += `
+      <div class="tool-card">
+        <h3>${service.name}</h3>
+        <p>${service.desc}</p>
+        <div class="buttons">
+          <a class="visit" href="${service.link}" target="_blank">Visit</a>
+          <button class="guide" onclick="alert('Step-by-step guide coming soon')">Guide</button>
+        </div>
+      </div>
+    `;
+  });
+}
+  </script>
+
 </body>
 </html>
