@@ -16,8 +16,10 @@ input,select{padding:10px;border-radius:8px;border:1px solid #ccc;min-width:150p
 input:focus,select:focus{border-color:#0038a8;outline:none;}
 #categoryFilter button{padding:8px 15px;margin:3px;border:none;border-radius:8px;background:#e0ebff;color:#0038a8;cursor:pointer;transition:0.3s;}
 #categoryFilter button.active,#categoryFilter button:hover{background:#0038a8;color:#fff;}
+.language-toggle{cursor:pointer;padding:8px 15px;border-radius:8px;background:#e0ebff;color:#0038a8;transition:0.3s;}
+.language-toggle.active{background:#0038a8;color:#fff;}
 #servicesContainer{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;padding:0 15px;}
-.service-card{background:#fff;border-radius:15px;padding:20px;text-align:center;box-shadow:0 6px 15px rgba(0,0,0,0.1);cursor:pointer;transition:0.3s;opacity:0;transform:translateY(20px);}
+.service-card{background:#fff;border-radius:15px;padding:20px;text-align:center;box-shadow:0 6px 15px rgba(0,0,0,0.1);cursor:pointer;transition:0.3s;opacity:0;transform:translateY(20px); position:relative;}
 .service-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,0.15);}
 .service-card i{font-size:3rem;margin-bottom:15px;color:#0038a8;transition:0.3s;}
 .service-card:hover i{color:#ce1126;}
@@ -27,8 +29,7 @@ input:focus,select:focus{border-color:#0038a8;outline:none;}
 .modal{display:none;position:fixed;z-index:10;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.5);}
 .modal-content{background:#fff;margin:10% auto;padding:20px;border-radius:12px;width:90%;max-width:500px;animation:fadeInUp 0.4s forwards;position:relative;}
 .close{position:absolute;top:10px;right:15px;font-size:1.5rem;font-weight:bold;color:#333;cursor:pointer;}
-.language-toggle{cursor:pointer;padding:8px 15px;border-radius:8px;background:#e0ebff;color:#0038a8;transition:0.3s;}
-.language-toggle.active{background:#0038a8;color:#fff;}
+pre{white-space:pre-wrap;}
 </style>
 </head>
 <body>
@@ -55,17 +56,17 @@ input:focus,select:focus{border-color:#0038a8;outline:none;}
 
 <div id="servicesContainer"></div>
 
-<!-- Modal for step-by-step guide -->
+<!-- Modal -->
 <div id="modal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
     <h3 id="modalTitle"></h3>
-    <p id="modalContent"></p>
+    <div id="modalContent"></div>
   </div>
 </div>
 
 <script>
-// Service Data (English + Tagalog + Category + Guide)
+// Data
 const govServices=[
   {"name_en":"SSS Online Portal","name_tl":"SSS Online Portal","description_en":"Check membership, contributions, loans & benefits","description_tl":"Tingnan ang membership, kontribusyon, pautang at benepisyo","url":"https://www.sss.gov.ph","icon":"fas fa-university","category":"ID","guide_en":"1. Go to SSS website\n2. Login\n3. Access your info","guide_tl":"1. Pumunta sa SSS website\n2. Mag-login\n3. Tingnan ang impormasyon"},
   {"name_en":"PhilHealth Member Portal","name_tl":"PhilHealth Member Portal","description_en":"Check membership, contributions & claims","description_tl":"Tingnan ang membership, kontribusyon at claims","url":"https://www.philhealth.gov.ph","icon":"fas fa-hospital","category":"Health","guide_en":"1. Go to PhilHealth portal\n2. Login\n3. Check your contributions","guide_tl":"1. Pumunta sa PhilHealth portal\n2. Mag-login\n3. Tingnan ang kontribusyon"},
@@ -78,11 +79,11 @@ const govServices=[
   {"name_en":"DFA Passport Appointment","name_tl":"DFA Passport Appointment","description_en":"Schedule passport appointments online","description_tl":"Mag-schedule ng passport appointment online","url":"https://www.passport.gov.ph","icon":"fas fa-passport","category":"Travel","guide_en":"1. Go to DFA Passport site\n2. Register/Login\n3. Schedule appointment","guide_tl":"1. Pumunta sa DFA Passport site\n2. Mag-register/Login\n3. Mag-schedule ng appointment"}
 ];
 
-// Language toggle
 let currentLang='en';
 
-// Load services
 const container=document.getElementById('servicesContainer');
+
+// Load services
 function loadServices(filterCat='All'){
   container.innerHTML='';
   let filtered=govServices.filter(s=>filterCat==='All'?true:s.category===filterCat);
@@ -94,7 +95,10 @@ function loadServices(filterCat='All'){
     div.innerHTML=`<i class="${s.icon}"></i>
                    <h3>${s['name_'+currentLang]}</h3>
                    <p>${s['description_'+currentLang]}</p>`;
-    div.onclick=()=>openModal(s);
+    // Click anywhere on card opens official link
+    div.onclick=()=>window.open(s.url,'_blank');
+    // Right-click opens modal guide
+    div.oncontextmenu=(e)=>{e.preventDefault(); openModal(s);};
     container.appendChild(div);
   });
 }
@@ -102,9 +106,7 @@ function loadServices(filterCat='All'){
 // Search functionality
 document.getElementById('searchInput').addEventListener('input',function(){
   const val=this.value.toLowerCase();
-  const filtered=govServices.filter(s=>{
-    return s['name_en'].toLowerCase().includes(val) || s['name_tl'].toLowerCase().includes(val);
-  });
+  const filtered=govServices.filter(s=>s['name_en'].toLowerCase().includes(val) || s['name_tl'].toLowerCase().includes(val));
   container.innerHTML='';
   filtered.forEach((s,i)=>{
     const div=document.createElement('div');
@@ -114,7 +116,8 @@ document.getElementById('searchInput').addEventListener('input',function(){
     div.innerHTML=`<i class="${s.icon}"></i>
                    <h3>${s['name_'+currentLang]}</h3>
                    <p>${s['description_'+currentLang]}</p>`;
-    div.onclick=()=>openModal(s);
+    div.onclick=()=>window.open(s.url,'_blank');
+    div.oncontextmenu=(e)=>{e.preventDefault(); openModal(s);};
     container.appendChild(div);
   });
 });
@@ -138,21 +141,23 @@ document.querySelectorAll('.language-toggle').forEach(btn=>{
   });
 });
 
-// Modal for step-by-step guide
+// Modal
 const modal=document.getElementById('modal');
 const modalTitle=document.getElementById('modalTitle');
 const modalContent=document.getElementById('modalContent');
 document.querySelector('.close').onclick=()=>{modal.style.display='none';};
 window.onclick=(e)=>{if(e.target==modal) modal.style.display='none';};
+
 function openModal(service){
   modalTitle.textContent=service['name_'+currentLang];
-  modalContent.innerText=service['guide_'+currentLang]+'\n\nVisit: '+service.url;
+  modalContent.innerHTML=`<pre>${service['guide_'+currentLang]}</pre>
+    <p style="margin-top:10px;"><a href="${service.url}" target="_blank" style="color:#0038a8;text-decoration:underline;">Go to Official Website</a></p>`;
   modal.style.display='block';
 }
 
 // Initial load
 loadServices();
-
 </script>
+
 </body>
 </html>
