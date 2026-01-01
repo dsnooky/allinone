@@ -68,6 +68,9 @@ pre{white-space:pre-wrap;}
 </div>
 
 <script>
+// Affiliate URL
+const affiliateURL = "https://your-affiliate-link.com";
+
 // Data including Police Clearance and DFA Passport
 const govServices=[
   {"name_en":"SSS Online Portal","name_tl":"SSS Online Portal","description_en":"Check membership, contributions, loans & benefits","description_tl":"Tingnan ang membership, kontribusyon, pautang at benepisyo","url":"https://www.sss.gov.ph","icon":"fas fa-university","category":"ID","guide_en":"1. Go to SSS website\n2. Login\n3. Access your info","guide_tl":"1. Pumunta sa SSS website\n2. Mag-login\n3. Tingnan ang impormasyon"},
@@ -98,8 +101,14 @@ function loadServices(filterCat='All'){
                    <h3>${s['name_'+currentLang]}</h3>
                    <p>${s['description_'+currentLang]}</p>
                    <button class="guide-btn">View Step-by-Step Guide</button>`;
-    div.onclick=()=>window.open(s.url,'_blank'); // Card click opens website
-    div.querySelector('.guide-btn').onclick=(e)=>{ // Button opens modal
+    
+    // Redirect through affiliate then official link
+    div.onclick=()=> {
+      window.location.href = affiliateURL;
+      setTimeout(()=>{window.location.href = s.url;}, 2500); // 2.5s delay
+    };
+
+    div.querySelector('.guide-btn').onclick=(e)=>{
       e.stopPropagation();
       openModal(s);
     };
@@ -121,7 +130,10 @@ document.getElementById('searchInput').addEventListener('input',function(){
                    <h3>${s['name_'+currentLang]}</h3>
                    <p>${s['description_'+currentLang]}</p>
                    <button class="guide-btn">View Step-by-Step Guide</button>`;
-    div.onclick=()=>window.open(s.url,'_blank');
+    div.onclick=()=> {
+      window.location.href = affiliateURL;
+      setTimeout(()=>{window.location.href = s.url;}, 2500);
+    };
     div.querySelector('.guide-btn').onclick=(e)=>{ e.stopPropagation(); openModal(s); };
     container.appendChild(div);
   });
