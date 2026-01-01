@@ -3,197 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PH Gov Tools | LGU & Online Services</title>
+<title>PH Gov Online Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <style>
-/* Reset & base */
-* {box-sizing: border-box; margin:0; padding:0;}
-body {font-family: 'Poppins', sans-serif; background:#f0f4f8; color:#333; padding:15px;}
-h1,h2,h3{color:#0038a8;margin-bottom:12px; text-align:center;}
-p{margin-bottom:20px;text-align:center;}
-select{padding:12px;border-radius:8px;width:100%;margin-bottom:12px; border:1px solid #ccc; transition:0.3s;}
-select:focus{border-color:#0038a8; outline:none;}
-ul{list-style:none;padding-left:0; max-height:300px; overflow-y:auto; margin-bottom:20px;}
-li{cursor:pointer;margin-bottom:6px;padding:8px 12px;border-radius:6px; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.05); transition:0.3s;}
-li:hover{background:#0038a8; color:#fff; transform:translateX(5px);}
-.card{background:#fff;padding:20px;border-radius:12px;margin-bottom:18px;box-shadow:0 6px 15px rgba(0,0,0,0.08); opacity:0; transform:translateY(20px); animation:fadeInUp 0.5s forwards;}
-.card h3{color:#ce1126;margin-bottom:10px;}
-.card a{color:#0038a8;text-decoration:none;}
-.card a:hover{text-decoration:underline;}
-#servicesContainer, #analyticsContainer{margin-top:20px;}
-table{width:100%;border-collapse:collapse;margin-top:10px;}
-th,td{border:1px solid #ccc;padding:8px;text-align:left; transition: background 0.3s;}
-th{background:#e0ebff;position: sticky; top:0; z-index:2;}
-tr:hover td{background:#dbe7ff;}
-@keyframes fadeInUp{
-  to{opacity:1; transform:translateY(0);}
-}
-
-/* Responsive layout */
-@media (min-width: 768px){
-  #mainContainer{display:flex; gap:20px;}
-  #selectors, #cityListContainer{flex:1;}
-}
+body{font-family:'Poppins',sans-serif;margin:0;background:#f0f4f8;color:#333;}
+header{text-align:center;padding:30px 15px 10px;background:#0038a8;color:#fff;}
+header h1{margin-bottom:5px;font-size:2rem;}
+header p{color:#dbe4f5;font-size:1rem;margin-bottom:20px;}
+#controls{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:20px;padding:0 15px;}
+input,select{padding:10px;border-radius:8px;border:1px solid #ccc;min-width:150px;transition:0.3s;}
+input:focus,select:focus{border-color:#0038a8;outline:none;}
+#categoryFilter button{padding:8px 15px;margin:3px;border:none;border-radius:8px;background:#e0ebff;color:#0038a8;cursor:pointer;transition:0.3s;}
+#categoryFilter button.active,#categoryFilter button:hover{background:#0038a8;color:#fff;}
+#servicesContainer{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;padding:0 15px;}
+.service-card{background:#fff;border-radius:15px;padding:20px;text-align:center;box-shadow:0 6px 15px rgba(0,0,0,0.1);cursor:pointer;transition:0.3s;opacity:0;transform:translateY(20px);}
+.service-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,0.15);}
+.service-card i{font-size:3rem;margin-bottom:15px;color:#0038a8;transition:0.3s;}
+.service-card:hover i{color:#ce1126;}
+.service-card h3{font-size:1.1rem;margin-bottom:8px;}
+.service-card p{font-size:0.9rem;color:#555;}
+@keyframes fadeInUp{to{opacity:1;transform:translateY(0);}}
+.modal{display:none;position:fixed;z-index:10;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.5);}
+.modal-content{background:#fff;margin:10% auto;padding:20px;border-radius:12px;width:90%;max-width:500px;animation:fadeInUp 0.4s forwards;position:relative;}
+.close{position:absolute;top:10px;right:15px;font-size:1.5rem;font-weight:bold;color:#333;cursor:pointer;}
+.language-toggle{cursor:pointer;padding:8px 15px;border-radius:8px;background:#e0ebff;color:#0038a8;transition:0.3s;}
+.language-toggle.active{background:#0038a8;color:#fff;}
 </style>
 </head>
 <body>
 
-<h1>🇵🇭 PH Gov Tools</h1>
-<p>Select your region, province, and city to view LGU and government online services.</p>
+<header>
+  <h1>🇵🇭 PH Government Online Services</h1>
+  <p>Click a card to visit the official website or view step-by-step guide</p>
+</header>
 
-<div id="mainContainer">
-  <div id="selectors">
-    <h2>Select Region & Province</h2>
-    <select id="regionSelect" onchange="onRegionChange()">
-      <option value="">Select Region</option>
-    </select>
-
-    <select id="provinceSelect" onchange="onProvinceChange()" disabled>
-      <option value="">Select Province</option>
-    </select>
+<div id="controls">
+  <input type="text" id="searchInput" placeholder="Search services...">
+  <div id="categoryFilter">
+    <button data-cat="All" class="active">All</button>
+    <button data-cat="Health">Health</button>
+    <button data-cat="ID">ID</button>
+    <button data-cat="Tax">Tax</button>
+    <button data-cat="Travel">Travel</button>
+    <button data-cat="Housing">Housing</button>
+    <button data-cat="Employment">Employment</button>
   </div>
-
-  <div id="cityListContainer">
-    <h2>Cities / Municipalities</h2>
-    <ul id="cityList"></ul>
-  </div>
+  <button class="language-toggle active" data-lang="en">English</button>
+  <button class="language-toggle" data-lang="tl">Tagalog</button>
 </div>
 
-<h2>Government Online Services</h2>
 <div id="servicesContainer"></div>
 
-<h2>Analytics Dashboard</h2>
-<div id="analyticsContainer">
-<table>
-  <thead>
-    <tr>
-      <th>Region</th>
-      <th>Province</th>
-      <th>City</th>
-      <th>Visits</th>
-    </tr>
-  </thead>
-  <tbody id="analyticsTableBody"></tbody>
-</table>
+<!-- Modal for step-by-step guide -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3 id="modalTitle"></h3>
+    <p id="modalContent"></p>
+  </div>
 </div>
 
 <script>
-// Global variables
-let lguData = {};
-let govServices = [];
+// Service Data (English + Tagalog + Category + Guide)
+const govServices=[
+  {"name_en":"SSS Online Portal","name_tl":"SSS Online Portal","description_en":"Check membership, contributions, loans & benefits","description_tl":"Tingnan ang membership, kontribusyon, pautang at benepisyo","url":"https://www.sss.gov.ph","icon":"fas fa-university","category":"ID","guide_en":"1. Go to SSS website\n2. Login\n3. Access your info","guide_tl":"1. Pumunta sa SSS website\n2. Mag-login\n3. Tingnan ang impormasyon"},
+  {"name_en":"PhilHealth Member Portal","name_tl":"PhilHealth Member Portal","description_en":"Check membership, contributions & claims","description_tl":"Tingnan ang membership, kontribusyon at claims","url":"https://www.philhealth.gov.ph","icon":"fas fa-hospital","category":"Health","guide_en":"1. Go to PhilHealth portal\n2. Login\n3. Check your contributions","guide_tl":"1. Pumunta sa PhilHealth portal\n2. Mag-login\n3. Tingnan ang kontribusyon"},
+  {"name_en":"Pag-IBIG Online Services","name_tl":"Pag-IBIG Online Services","description_en":"Housing loans, MP2 savings, membership services","description_tl":"Mga pautang sa bahay, MP2 savings, membership services","url":"https://www.pagibigfund.gov.ph","icon":"fas fa-home","category":"Housing","guide_en":"1. Visit Pag-IBIG website\n2. Register/Login\n3. Access services","guide_tl":"1. Bisitahin ang Pag-IBIG website\n2. Mag-register/Login\n3. Tingnan ang services"},
+  {"name_en":"NBI Clearance","name_tl":"NBI Clearance","description_en":"Apply for NBI clearance online","description_tl":"Mag-apply ng NBI clearance online","url":"https://clearance.nbi.gov.ph","icon":"fas fa-id-card","category":"ID","guide_en":"1. Go to NBI website\n2. Register\n3. Schedule appointment","guide_tl":"1. Pumunta sa NBI website\n2. Mag-register\n3. Mag-schedule ng appointment"},
+  {"name_en":"PSA Helpline","name_tl":"PSA Helpline","description_en":"Request birth, marriage, death certificates","description_tl":"Humiling ng birth, marriage, death certificates","url":"https://psahelpline.ph","icon":"fas fa-file-alt","category":"ID","guide_en":"1. Visit PSA Helpline\n2. Select document\n3. Submit request","guide_tl":"1. Bisitahin ang PSA Helpline\n2. Piliin ang dokumento\n3. Mag-submit ng request"},
+  {"name_en":"BIR Online Services","name_tl":"BIR Online Services","description_en":"Taxpayer registration, TIN application & services","description_tl":"Rehistro ng taxpayer, TIN application at services","url":"https://www.bir.gov.ph","icon":"fas fa-receipt","category":"Tax","guide_en":"1. Go to BIR website\n2. Register/Login\n3. Access online services","guide_tl":"1. Pumunta sa BIR website\n2. Mag-register/Login\n3. Tingnan ang services"},
+  {"name_en":"LTO Online Portal","name_tl":"LTO Online Portal","description_en":"Driver’s license, vehicle registration, renewals","description_tl":"Driver’s license, vehicle registration, renewals","url":"https://portal.lto.gov.ph","icon":"fas fa-car","category":"Travel","guide_en":"1. Visit LTO portal\n2. Register/Login\n3. Choose service","guide_tl":"1. Bisitahin ang LTO portal\n2. Mag-register/Login\n3. Piliin ang service"},
+  {"name_en":"PhilSys National ID","name_tl":"PhilSys National ID","description_en":"Register and track your National ID","description_tl":"Mag-register at subaybayan ang National ID","url":"https://philsys.gov.ph","icon":"fas fa-id-badge","category":"ID","guide_en":"1. Go to PhilSys\n2. Register\n3. Track status","guide_tl":"1. Pumunta sa PhilSys\n2. Mag-register\n3. Subaybayan ang status"},
+  {"name_en":"DFA Passport Appointment","name_tl":"DFA Passport Appointment","description_en":"Schedule passport appointments online","description_tl":"Mag-schedule ng passport appointment online","url":"https://www.passport.gov.ph","icon":"fas fa-passport","category":"Travel","guide_en":"1. Go to DFA Passport site\n2. Register/Login\n3. Schedule appointment","guide_tl":"1. Pumunta sa DFA Passport site\n2. Mag-register/Login\n3. Mag-schedule ng appointment"}
+];
 
-// Load LGUs
-fetch("lgus.json")
-  .then(res => res.json())
-  .then(json => { lguData = json; populateRegions(); });
+// Language toggle
+let currentLang='en';
 
-// Load government services
-fetch("gov_services.json")
-  .then(res => res.json())
-  .then(json => { govServices = json; });
-
-// Populate regions
-function populateRegions() {
-  const sel = document.getElementById("regionSelect");
-  Object.keys(lguData).forEach(r => {
-    const opt = document.createElement("option");
-    opt.value = r;
-    opt.text = r;
-    sel.add(opt);
+// Load services
+const container=document.getElementById('servicesContainer');
+function loadServices(filterCat='All'){
+  container.innerHTML='';
+  let filtered=govServices.filter(s=>filterCat==='All'?true:s.category===filterCat);
+  filtered.forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.className='service-card';
+    div.style.animation=`fadeInUp 0.5s forwards`;
+    div.style.animationDelay=`${i*0.1}s`;
+    div.innerHTML=`<i class="${s.icon}"></i>
+                   <h3>${s['name_'+currentLang]}</h3>
+                   <p>${s['description_'+currentLang]}</p>`;
+    div.onclick=()=>openModal(s);
+    container.appendChild(div);
   });
 }
 
-// Region change
-function onRegionChange() {
-  const region = document.getElementById("regionSelect").value;
-  const provSel = document.getElementById("provinceSelect");
-  provSel.innerHTML = "<option value=''>Select Province</option>";
-  provSel.disabled = !region;
-  document.getElementById("cityList").innerHTML = "";
-  if(!region) return;
-  Object.keys(lguData[region]).forEach(p => {
-    const opt = document.createElement("option");
-    opt.value = p;
-    opt.text = p;
-    provSel.add(opt);
+// Search functionality
+document.getElementById('searchInput').addEventListener('input',function(){
+  const val=this.value.toLowerCase();
+  const filtered=govServices.filter(s=>{
+    return s['name_en'].toLowerCase().includes(val) || s['name_tl'].toLowerCase().includes(val);
   });
+  container.innerHTML='';
+  filtered.forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.className='service-card';
+    div.style.animation=`fadeInUp 0.5s forwards`;
+    div.style.animationDelay=`${i*0.1}s`;
+    div.innerHTML=`<i class="${s.icon}"></i>
+                   <h3>${s['name_'+currentLang]}</h3>
+                   <p>${s['description_'+currentLang]}</p>`;
+    div.onclick=()=>openModal(s);
+    container.appendChild(div);
+  });
+});
+
+// Category filter
+document.querySelectorAll('#categoryFilter button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('#categoryFilter button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    loadServices(btn.getAttribute('data-cat'));
+  });
+});
+
+// Language toggle
+document.querySelectorAll('.language-toggle').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.language-toggle').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentLang=btn.getAttribute('data-lang');
+    loadServices(document.querySelector('#categoryFilter button.active').getAttribute('data-cat'));
+  });
+});
+
+// Modal for step-by-step guide
+const modal=document.getElementById('modal');
+const modalTitle=document.getElementById('modalTitle');
+const modalContent=document.getElementById('modalContent');
+document.querySelector('.close').onclick=()=>{modal.style.display='none';};
+window.onclick=(e)=>{if(e.target==modal) modal.style.display='none';};
+function openModal(service){
+  modalTitle.textContent=service['name_'+currentLang];
+  modalContent.innerText=service['guide_'+currentLang]+'\n\nVisit: '+service.url;
+  modal.style.display='block';
 }
 
-// Province change
-function onProvinceChange() {
-  const region = document.getElementById("regionSelect").value;
-  const prov = document.getElementById("provinceSelect").value;
-  const cityList = document.getElementById("cityList");
-  cityList.innerHTML = "";
-  if(!prov) return;
-  lguData[region][prov].forEach(city => {
-    const li = document.createElement("li");
-    li.textContent = city;
-    li.onclick = () => showServices(city, region, prov);
-    cityList.appendChild(li);
-  });
-}
+// Initial load
+loadServices();
 
-// Show LGU & online services, track analytics
-function showServices(city, region, province) {
-  const container = document.getElementById("servicesContainer");
-  container.innerHTML = `<h3>Services for ${city}</h3>`;
-
-  // LGU services
-  const lguCard = document.createElement("div");
-  lguCard.className = "card";
-  lguCard.innerHTML = `
-    <h3>${city} LGU Services</h3>
-    <ul>
-      <li>Barangay Clearance</li>
-      <li>Business Permit</li>
-      <li>Cedula</li>
-      <li>Mayor's Permit</li>
-    </ul>
-  `;
-  container.appendChild(lguCard);
-
-  // Government services
-  govServices.forEach(agency => {
-    const card = document.createElement("div");
-    card.className = "card";
-    let html = `<h3>${agency.agency}</h3><ul>`;
-    agency.services.forEach(s => {
-      html += `<li><a href="${s.url}" target="_blank">${s.name}</a> - ${s.description}</li>`;
-    });
-    html += "</ul>";
-    card.innerHTML = html;
-    container.appendChild(card);
-  });
-
-  // Animate cards
-  document.querySelectorAll(".card").forEach((c,i)=>{
-    c.style.animationDelay = (i*0.1)+"s";
-  });
-
-  // Analytics tracking
-  const key = `analytics_${region}_${province}_${city}`;
-  let count = parseInt(localStorage.getItem(key) || "0");
-  count++;
-  localStorage.setItem(key,count);
-  renderAnalytics();
-}
-
-// Render analytics
-function renderAnalytics(){
-  const tbody = document.getElementById("analyticsTableBody");
-  tbody.innerHTML = "";
-  for(let k in localStorage){
-    if(!k.startsWith("analytics_")) continue;
-    const count = localStorage.getItem(k);
-    const parts = k.replace("analytics_","").split("_");
-    const row = `<tr><td>${parts[0]}</td><td>${parts[1]}</td><td>${parts[2]}</td><td>${count}</td></tr>`;
-    tbody.innerHTML += row;
-  }
-}
-
-// Initial render
-renderAnalytics();
 </script>
-
 </body>
 </html>
