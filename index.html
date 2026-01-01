@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PH Gov Tools | Government Services Guide</title>
 
-<meta name="description" content="Search Philippine government services with step-by-step printable guides. SSS, Pag-IBIG, PhilHealth, NBI, PSA, LTO.">
-<meta name="author" content="PH Gov Tools">
+<title>PH Gov Tools | Philippine Government & LGU Services</title>
+<meta name="description" content="One-stop hub for Philippine Government and LGU services with step-by-step guides and city-based services.">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -15,17 +14,18 @@
 body{background:#f4f8fc;color:#333}
 header{background:linear-gradient(135deg,#0038a8,#ce1126);color:#fff;padding:50px 20px;text-align:center}
 header h1{font-size:2.3rem}
+header p{opacity:.95}
 
 .container{max-width:1200px;margin:auto;padding:40px 20px}
 
-/* LANGUAGE TOGGLE */
+/* Language Toggle */
 .lang-toggle{text-align:right;margin-bottom:15px}
 .lang-toggle button{
-  border:none;padding:8px 14px;border-radius:20px;
+  border:none;padding:8px 16px;border-radius:20px;
   background:#0038a8;color:#fff;cursor:pointer;
 }
 
-/* SEARCH */
+/* Search */
 .search-box{position:relative;max-width:450px;margin:20px auto}
 .search-box input{
   width:100%;padding:14px 18px;border-radius:30px;
@@ -41,19 +41,118 @@ header h1{font-size:2.3rem}
   padding:12px 18px;cursor:pointer
 }
 .suggestions div:hover{background:#f0f0f0}
-  <!-- LGU SERVICES -->
-<h2 style="text-align:center;color:#0038a8;margin-bottom:15px">
-🏛 LGU Services by City
-</h2>
+
+/* Tools */
+.tools{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:25px;
+}
+.tool-card{
+  background:#fff;padding:25px;border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+.tool-card h3{color:#ce1126;margin-bottom:8px}
+.tool-card p{font-size:.95rem}
+.buttons{margin-top:15px;display:flex;gap:10px;flex-wrap:wrap}
+.buttons a,.buttons button{
+  padding:10px 16px;border-radius:30px;
+  border:none;cursor:pointer;font-size:.85rem;
+  text-decoration:none
+}
+.visit{background:#0038a8;color:#fff}
+.guide{background:#eee}
+
+/* LGU */
+select{
+  width:100%;padding:14px;border-radius:30px;border:none;
+  box-shadow:0 10px 25px rgba(0,0,0,.1)
+}
+
+/* Modal */
+.modal{
+  display:none;position:fixed;top:0;left:0;
+  width:100%;height:100%;background:rgba(0,0,0,.6)
+}
+.modal-content{
+  background:#fff;max-width:500px;
+  margin:8% auto;padding:30px;border-radius:15px
+}
+.close{float:right;font-size:22px;cursor:pointer}
+
+/* Footer */
+footer{
+  background:#111;color:#aaa;text-align:center;
+  padding:20px;margin-top:40px
+}
+
+/* Print */
+@media print{
+  body *{visibility:hidden}
+  .modal-content,.modal-content *{visibility:visible}
+  .modal-content{position:absolute;left:0;top:0;width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1 id="title">🇵🇭 PH Gov Tools</h1>
+<p id="subtitle">Search Philippine Government & LGU Services Easily</p>
+</header>
+
+<div class="container">
+
+<div class="lang-toggle">
+<button onclick="toggleLang()">Tagalog / English</button>
+</div>
+
+<!-- SEARCH -->
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Search services..." oninput="autoSuggest()">
+<div class="suggestions" id="suggestions"></div>
+</div>
+
+<!-- NATIONAL SERVICES -->
+<h2 style="text-align:center;color:#0038a8;margin-bottom:20px">National Government Services</h2>
+
+<div class="tools">
+
+<div class="tool-card" data-name="sss">
+<h3>SSS</h3>
+<p>Social Security System services.</p>
+<div class="buttons">
+<a class="visit" href="https://www.sss.gov.ph" target="_blank">Visit</a>
+<button class="guide" onclick="openGuide('sss')">Guide</button>
+</div>
+</div>
+
+<div class="tool-card" data-name="pagibig">
+<h3>Pag-IBIG</h3>
+<p>Housing loans and savings.</p>
+<div class="buttons">
+<a class="visit" href="https://www.pagibigfund.gov.ph" target="_blank">Visit</a>
+<button class="guide" onclick="openGuide('pagibig')">Guide</button>
+</div>
+</div>
+
+<div class="tool-card" data-name="nbi">
+<h3>NBI Clearance</h3>
+<p>Apply NBI Clearance online.</p>
+<div class="buttons">
+<a class="visit" href="https://clearance.nbi.gov.ph" target="_blank">Visit</a>
+<button class="guide" onclick="openGuide('nbi')">Guide</button>
+</div>
+</div>
+
+</div>
+
+<!-- LGU SECTION -->
+<h2 style="text-align:center;color:#0038a8;margin:50px 0 15px">🏛 LGU Services by City</h2>
 
 <div style="max-width:450px;margin:0 auto 30px">
-<select id="citySelect" onchange="loadLGU()" style="
-  width:100%;
-  padding:14px;
-  border-radius:30px;
-  border:none;
-  box-shadow:0 10px 25px rgba(0,0,0,.1);
-">
+<select id="citySelect" onchange="loadLGU()">
 <option value="">Select City / Municipality</option>
 <option value="manila">Manila</option>
 <option value="quezon">Quezon City</option>
@@ -65,99 +164,6 @@ header h1{font-size:2.3rem}
 
 <div class="tools" id="lguServices"></div>
 
-/* TOOLS */
-.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px}
-.tool-card{
-  background:#fff;padding:25px;border-radius:15px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
-.tool-card h3{color:#ce1126}
-.buttons{margin-top:15px;display:flex;gap:10px;flex-wrap:wrap}
-.buttons a, .buttons button{
-  padding:10px 16px;border-radius:30px;
-  border:none;cursor:pointer;font-size:.85rem;
-  text-decoration:none
-}
-.visit{background:#0038a8;color:#fff}
-.guide{background:#eee}
-
-/* MODAL */
-.modal{
-  display:none;position:fixed;top:0;left:0;
-  width:100%;height:100%;background:rgba(0,0,0,.6)
-}
-.modal-content{
-  background:#fff;max-width:500px;
-  margin:8% auto;padding:30px;border-radius:15px
-}
-.close{float:right;font-size:22px;cursor:pointer}
-
-footer{
-  background:#111;color:#aaa;text-align:center;
-  padding:20px;margin-top:40px
-}
-
-/* PRINT */
-@media print{
-  body *{visibility:hidden}
-  .modal-content, .modal-content *{
-    visibility:visible
-  }
-  .modal-content{
-    position:absolute;left:0;top:0;width:100%
-  }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-<h1 id="title">🇵🇭 PH Gov Tools</h1>
-<p id="subtitle">Search & learn Philippine Government Services</p>
-</header>
-
-<div class="container">
-
-<div class="lang-toggle">
-<button onclick="toggleLang()">Tagalog / English</button>
-</div>
-
-<div class="search-box">
-<input type="text" id="searchInput" placeholder="Search services..." oninput="autoSuggest()">
-<div class="suggestions" id="suggestions"></div>
-</div>
-
-<div class="tools" id="services">
-
-<div class="tool-card" data-name="sss">
-<h3>SSS</h3>
-<p class="desc">Social Security System services.</p>
-<div class="buttons">
-<a class="visit" href="https://www.sss.gov.ph" target="_blank">Visit</a>
-<button class="guide" onclick="openGuide('sss')">Guide</button>
-</div>
-</div>
-
-<div class="tool-card" data-name="pagibig">
-<h3>Pag-IBIG</h3>
-<p class="desc">Housing loan & savings.</p>
-<div class="buttons">
-<a class="visit" href="https://www.pagibigfund.gov.ph" target="_blank">Visit</a>
-<button class="guide" onclick="openGuide('pagibig')">Guide</button>
-</div>
-</div>
-
-<div class="tool-card" data-name="nbi">
-<h3>NBI Clearance</h3>
-<p class="desc">Apply NBI Clearance online.</p>
-<div class="buttons">
-<a class="visit" href="https://clearance.nbi.gov.ph" target="_blank">Visit</a>
-<button class="guide" onclick="openGuide('nbi')">Guide</button>
-</div>
-</div>
-
-</div>
 </div>
 
 <!-- MODAL -->
@@ -167,37 +173,59 @@ footer{
 <h3 id="guideTitle"></h3>
 <pre id="guideContent"></pre>
 <br>
-<button onclick="window.print()" class="visit">🖨 Print / Save PDF</button>
+<button onclick="window.print()" class="visit">🖨 Print / Save as PDF</button>
 </div>
 </div>
 
 <footer>
-© 2026 PH Gov Tools | Not affiliated with Philippine Government
+© 2026 PH Gov Tools | Not affiliated with the Philippine Government
 </footer>
 
 <script>
 let lang="en";
 
+/* Guides */
 const guides={
   sss:{
     en:"1. Visit sss.gov.ph\n2. Create account\n3. Verify email\n4. Complete profile\n5. View benefits",
     tl:"1. Pumunta sa sss.gov.ph\n2. Gumawa ng account\n3. I-verify ang email\n4. Kumpletuhin ang profile\n5. Tingnan ang benepisyo"
   },
   pagibig:{
-    en:"1. Visit pagibigfund.gov.ph\n2. Register as member\n3. Get MID number\n4. Activate Virtual Pag-IBIG",
-    tl:"1. Pumunta sa pagibigfund.gov.ph\n2. Mag-register bilang miyembro\n3. Kunin ang MID number\n4. I-activate ang Virtual Pag-IBIG"
+    en:"1. Register online\n2. Get MID number\n3. Activate Virtual Pag-IBIG\n4. Access services",
+    tl:"1. Mag-register online\n2. Kunin ang MID number\n3. I-activate ang Virtual Pag-IBIG\n4. Gamitin ang serbisyo"
   },
   nbi:{
-    en:"1. Register online\n2. Fill personal info\n3. Set appointment\n4. Pay fee\n5. Visit NBI office",
-    tl:"1. Mag-register online\n2. Ilagay ang impormasyon\n3. Pumili ng schedule\n4. Magbayad\n5. Pumunta sa NBI"
+    en:"1. Register online\n2. Fill info\n3. Set appointment\n4. Pay fee\n5. Visit NBI",
+    tl:"1. Mag-register\n2. Ilagay ang impormasyon\n3. Pumili ng schedule\n4. Magbayad\n5. Pumunta sa NBI"
   }
 };
 
+/* LGU Data */
+const lguData={
+  manila:[
+    {name:"Barangay Clearance",desc:"Barangay clearance application.",link:"https://www.manila.gov.ph"},
+    {name:"Mayor’s Permit",desc:"Business permit processing.",link:"https://www.manila.gov.ph"}
+  ],
+  quezon:[
+    {name:"QC E-Services",desc:"Online LGU services of QC.",link:"https://qceservices.quezoncity.gov.ph"}
+  ],
+  cebu:[
+    {name:"Cebu City Portal",desc:"LGU services of Cebu City.",link:"https://www.cebucity.gov.ph"}
+  ],
+  davao:[
+    {name:"Davao City Online",desc:"Davao LGU services.",link:"https://www.davaocity.gov.ph"}
+  ],
+  makati:[
+    {name:"Makati E-Services",desc:"Makati LGU services.",link:"https://www.makati.gov.ph"}
+  ]
+};
+
+/* Functions */
 function toggleLang(){
   lang = lang==="en" ? "tl" : "en";
   document.getElementById("subtitle").innerText =
-    lang==="en" ? "Search & learn Philippine Government Services"
-                : "Maghanap at matutunan ang Serbisyo ng Gobyerno";
+    lang==="en" ? "Search Philippine Government & LGU Services Easily"
+                : "Madaling Hanapin ang Serbisyo ng Gobyerno at LGU";
 }
 
 function autoSuggest(){
@@ -206,11 +234,11 @@ function autoSuggest(){
   sug.innerHTML="";
   if(!input){sug.style.display="none";return;}
   document.querySelectorAll(".tool-card").forEach(card=>{
-    if(card.dataset.name.includes(input)){
-      let div=document.createElement("div");
-      div.innerText=card.querySelector("h3").innerText;
-      div.onclick=()=>{card.scrollIntoView({behavior:"smooth"});sug.style.display="none";}
-      sug.appendChild(div);
+    if(card.dataset.name && card.dataset.name.includes(input)){
+      let d=document.createElement("div");
+      d.innerText=card.querySelector("h3").innerText;
+      d.onclick=()=>{card.scrollIntoView({behavior:"smooth"});sug.style.display="none";}
+      sug.appendChild(d);
     }
   });
   sug.style.display="block";
@@ -224,78 +252,24 @@ function openGuide(service){
 function closeGuide(){
   document.getElementById("guideModal").style.display="none";
 }
-</script>
-
-  <script>
-const lguData = {
-  manila: [
-    {
-      name: "Barangay Clearance",
-      desc: "Apply for Barangay Clearance in Manila.",
-      link: "https://www.manila.gov.ph"
-    },
-    {
-      name: "Mayor’s Permit",
-      desc: "Business permit application for Manila.",
-      link: "https://www.manila.gov.ph"
-    }
-  ],
-  quezon: [
-    {
-      name: "QC E-Services",
-      desc: "Online LGU services of Quezon City.",
-      link: "https://qceservices.quezoncity.gov.ph"
-    },
-    {
-      name: "Business Permit",
-      desc: "Apply business permit in QC.",
-      link: "https://quezoncity.gov.ph"
-    }
-  ],
-  cebu: [
-    {
-      name: "Cebu City Services",
-      desc: "LGU services of Cebu City.",
-      link: "https://www.cebucity.gov.ph"
-    }
-  ],
-  davao: [
-    {
-      name: "Davao City Online",
-      desc: "LGU services and transactions.",
-      link: "https://www.davaocity.gov.ph"
-    }
-  ],
-  makati: [
-    {
-      name: "Makati E-Services",
-      desc: "Barangay, permits & local services.",
-      link: "https://www.makati.gov.ph"
-    }
-  ]
-};
 
 function loadLGU(){
-  const city = document.getElementById("citySelect").value;
-  const container = document.getElementById("lguServices");
-  container.innerHTML = "";
-
-  if(!city) return;
-
-  lguData[city].forEach(service=>{
-    container.innerHTML += `
-      <div class="tool-card">
-        <h3>${service.name}</h3>
-        <p>${service.desc}</p>
-        <div class="buttons">
-          <a class="visit" href="${service.link}" target="_blank">Visit</a>
-          <button class="guide" onclick="alert('Step-by-step guide coming soon')">Guide</button>
-        </div>
+  let city=document.getElementById("citySelect").value;
+  let c=document.getElementById("lguServices");
+  c.innerHTML="";
+  if(!city)return;
+  lguData[city].forEach(s=>{
+    c.innerHTML+=`
+    <div class="tool-card">
+      <h3>${s.name}</h3>
+      <p>${s.desc}</p>
+      <div class="buttons">
+        <a class="visit" href="${s.link}" target="_blank">Visit</a>
       </div>
-    `;
+    </div>`;
   });
 }
-  </script>
+</script>
 
 </body>
 </html>
