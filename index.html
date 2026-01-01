@@ -24,7 +24,9 @@ input:focus,select:focus{border-color:#0038a8;outline:none;}
 .service-card i{font-size:3rem;margin-bottom:15px;color:#0038a8;transition:0.3s;}
 .service-card:hover i{color:#ce1126;}
 .service-card h3{font-size:1.1rem;margin-bottom:8px;}
-.service-card p{font-size:0.9rem;color:#555;}
+.service-card p{font-size:0.9rem;color:#555;margin-bottom:10px;}
+.guide-btn{display:inline-block;padding:8px 12px;margin-top:8px;border:none;border-radius:8px;background:#0038a8;color:#fff;cursor:pointer;transition:0.3s;}
+.guide-btn:hover{background:#ce1126;}
 @keyframes fadeInUp{to{opacity:1;transform:translateY(0);}}
 .modal{display:none;position:fixed;z-index:10;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.5);}
 .modal-content{background:#fff;margin:10% auto;padding:20px;border-radius:12px;width:90%;max-width:500px;animation:fadeInUp 0.4s forwards;position:relative;}
@@ -36,7 +38,7 @@ pre{white-space:pre-wrap;}
 
 <header>
   <h1>🇵🇭 PH Government Online Services</h1>
-  <p>Click a card to visit the official website or view step-by-step guide</p>
+  <p>Click a card to visit the official website or click "View Guide" for step-by-step instructions</p>
 </header>
 
 <div id="controls">
@@ -80,7 +82,6 @@ const govServices=[
 ];
 
 let currentLang='en';
-
 const container=document.getElementById('servicesContainer');
 
 // Load services
@@ -94,11 +95,13 @@ function loadServices(filterCat='All'){
     div.style.animationDelay=`${i*0.1}s`;
     div.innerHTML=`<i class="${s.icon}"></i>
                    <h3>${s['name_'+currentLang]}</h3>
-                   <p>${s['description_'+currentLang]}</p>`;
-    // Click anywhere on card opens official link
-    div.onclick=()=>window.open(s.url,'_blank');
-    // Right-click opens modal guide
-    div.oncontextmenu=(e)=>{e.preventDefault(); openModal(s);};
+                   <p>${s['description_'+currentLang]}</p>
+                   <button class="guide-btn">View Step-by-Step Guide</button>`;
+    div.onclick=()=>window.open(s.url,'_blank'); // Card click opens website
+    div.querySelector('.guide-btn').onclick=(e)=>{ // Button opens modal
+      e.stopPropagation();
+      openModal(s);
+    };
     container.appendChild(div);
   });
 }
@@ -115,9 +118,10 @@ document.getElementById('searchInput').addEventListener('input',function(){
     div.style.animationDelay=`${i*0.1}s`;
     div.innerHTML=`<i class="${s.icon}"></i>
                    <h3>${s['name_'+currentLang]}</h3>
-                   <p>${s['description_'+currentLang]}</p>`;
+                   <p>${s['description_'+currentLang]}</p>
+                   <button class="guide-btn">View Step-by-Step Guide</button>`;
     div.onclick=()=>window.open(s.url,'_blank');
-    div.oncontextmenu=(e)=>{e.preventDefault(); openModal(s);};
+    div.querySelector('.guide-btn').onclick=(e)=>{ e.stopPropagation(); openModal(s); };
     container.appendChild(div);
   });
 });
@@ -147,7 +151,6 @@ const modalTitle=document.getElementById('modalTitle');
 const modalContent=document.getElementById('modalContent');
 document.querySelector('.close').onclick=()=>{modal.style.display='none';};
 window.onclick=(e)=>{if(e.target==modal) modal.style.display='none';};
-
 function openModal(service){
   modalTitle.textContent=service['name_'+currentLang];
   modalContent.innerHTML=`<pre>${service['guide_'+currentLang]}</pre>
@@ -158,6 +161,5 @@ function openModal(service){
 // Initial load
 loadServices();
 </script>
-
 </body>
 </html>
