@@ -3,19 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PH Gov Tools | All LGUs</title>
+<title>PH Gov Tools | LGU & Services</title>
 <style>
-body{font-family:sans-serif;margin:20px;}
-h1{color:#0038a8;}
+body{font-family:sans-serif;margin:20px;background:#f4f8fc;color:#333;}
+h1,h2{color:#0038a8;margin-bottom:10px;}
 select{padding:10px;border-radius:8px;width:100%;margin-bottom:10px;}
-li{cursor:pointer;margin-bottom:4px;}
-li:hover{text-decoration:underline;}
+ul{list-style:none;padding-left:0;}
+li{cursor:pointer;margin-bottom:4px;padding:6px 10px;border-radius:6px;}
+li:hover{text-decoration:underline;background:#e2e8f0;}
+.card{background:#fff;padding:15px;border-radius:10px;margin-bottom:15px;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+.card h3{color:#ce1126;margin-bottom:8px;}
+.card a{color:#0038a8;text-decoration:none;}
+.card a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
 
-<h1>📍 Philippines Local Government Units</h1>
+<h1>🇵🇭 PH Gov Tools</h1>
+<p>Regions, Provinces, Cities, and Online Government Services</p>
 
+<h2>Select Region & Province</h2>
 <select id="regionSelect" onchange="onRegionChange()">
   <option value="">Select Region</option>
 </select>
@@ -24,13 +31,19 @@ li:hover{text-decoration:underline;}
   <option value="">Select Province</option>
 </select>
 
+<h2>Cities / Municipalities</h2>
 <ul id="cityList"></ul>
+
+<h2>Government Online Services</h2>
+<div id="servicesContainer"></div>
 
 <script>
 let lguData = {};
+let govServices = [];
 
+// Load LGUs
 fetch("lgus.json")
-  .then(response => response.json())
+  .then(res => res.json())
   .then(json => {
     lguData = json;
     populateRegions();
@@ -64,13 +77,37 @@ function onRegionChange() {
 function onProvinceChange() {
   const region = document.getElementById("regionSelect").value;
   const prov = document.getElementById("provinceSelect").value;
-  const list = document.getElementById("cityList");
-  list.innerHTML = "";
+  const cityList = document.getElementById("cityList");
+  cityList.innerHTML = "";
   if (!prov) return;
   lguData[region][prov].forEach(city => {
     const li = document.createElement("li");
     li.textContent = city;
-    list.appendChild(li);
+    li.onclick = () => showServices(city);
+    cityList.appendChild(li);
+  });
+}
+
+// Load government services JSON
+fetch("gov_services.json")
+  .then(res => res.json())
+  .then(json => {
+    govServices = json;
+  });
+
+function showServices(city) {
+  const container = document.getElementById("servicesContainer");
+  container.innerHTML = `<h3>Online Services for ${city}</h3>`;
+  govServices.forEach(agency => {
+    const card = document.createElement("div");
+    card.className = "card";
+    let html = `<h3>${agency.agency}</h3><ul>`;
+    agency.services.forEach(s => {
+      html += `<li><a href="${s.url}" target="_blank">${s.name}</a> - ${s.description}</li>`;
+    });
+    html += "</ul>";
+    card.innerHTML = html;
+    container.appendChild(card);
   });
 }
 </script>
