@@ -1,0 +1,254 @@
+{
+  "NCR": {
+    "Metro Manila": [
+      "Manila",
+      "Quezon City",
+      "Caloocan",
+      "Pasay",
+      "Makati",
+      "Mandaluyong",
+      "Marikina",
+      "Muntinlupa",
+      "Navotas",
+      "Parañaque",
+      "Pasig",
+      "San Juan",
+      "Taguig",
+      "Valenzuela",
+      "Las Piñas",
+      "Malabon",
+      "Pateros"
+    ]
+  },
+  "Ilocos Region": {
+    "Ilocos Norte": [
+      "Laoag",
+      "Batac",
+      "Paoay",
+      "Vintar",
+      "Pagudpud"
+    ],
+    "Ilocos Sur": [
+      "Vigan",
+      "Candon",
+      "Santa"
+    ],
+    "La Union": [
+      "San Fernando",
+      "Agoo",
+      "Bauang"
+    ],
+    "Pangasinan": [
+      "Dagupan",
+      "Alaminos",
+      "Urdaneta",
+      "San Carlos"
+    ]
+  },
+  "Cagayan Valley": {
+    "Batanes": [
+      "Basco",
+      "Itbayat",
+      "Sabtang"
+    ],
+    "Cagayan": [
+      "Tuguegarao",
+      "Aparri",
+      "Gonzaga"
+    ],
+    "Isabela": [
+      "Ilagan",
+      "Cauayan",
+      "Santiago"
+    ],
+    "Nueva Vizcaya": [
+      "Bayombong",
+      "Solano"
+    ],
+    "Quirino": [
+      "Cabarroguis",
+      "Diffun"
+    ]
+  },
+  "Central Luzon": {
+    "Aurora": [
+      "Baler",
+      "Maria Aurora"
+    ],
+    "Bataan": [
+      "Balanga",
+      "Orion"
+    ],
+    "Bulacan": [
+      "Malolos",
+      "Meycauayan",
+      "San Jose del Monte"
+    ],
+    "Nueva Ecija": [
+      "Cabanatuan",
+      "Gapan",
+      "Palayan"
+    ],
+    "Pampanga": [
+      "Angeles",
+      "San Fernando"
+    ],
+    "Tarlac": [
+      "Tarlac City",
+      "Concepcion"
+    ],
+    "Zambales": [
+      "Olongapo",
+      "Subic"
+    ]
+  },
+  "CALABARZON": {
+    "Batangas": [
+      "Batangas City",
+      "Lipa",
+      "Tanauan"
+    ],
+    "Cavite": [
+      "Bacoor",
+      "Imus",
+      "Dasmariñas",
+      "Tagaytay"
+    ],
+    "Laguna": [
+      "Calamba",
+      "Santa Rosa",
+      "San Pablo"
+    ],
+    "Quezon": [
+      "Lucena",
+      "Tayabas"
+    ],
+    "Rizal": [
+      "Antipolo",
+      "Cainta"
+    ]
+  },
+  "MIMAROPA": {
+    "Marinduque": [
+      "Boac"
+    ],
+    "Occidental Mindoro": [
+      "Mamburao"
+    ],
+    "Oriental Mindoro": [
+      "Calapan"
+    ],
+    "Palawan": [
+      "Puerto Princesa",
+      "El Nido"
+    ],
+    "Romblon": [
+      "Romblon",
+      "Odiongan"
+    ]
+  },
+  "Bicol Region": {
+    "Albay": [
+      "Legazpi",
+      "Daraga"
+    ],
+    "Camarines Norte": [
+      "Daet"
+    ],
+    "Camarines Sur": [
+      "Naga",
+      "Iriga"
+    ],
+    "Catanduanes": [
+      "Virac"
+    ],
+    "Masbate": [
+      "Masbate City"
+    ],
+    "Sorsogon": [
+      "Sorsogon City"
+    ]
+  },
+  "Western Visayas": {
+    "Aklan": [
+      "Kalibo",
+      "Boracay"
+    ],
+    "Antique": [
+      "San Jose de Buenavista"
+    ],
+    "Capiz": [
+      "Roxas City"
+    ],
+    "Guimaras": [
+      "Jordan"
+    ],
+    "Iloilo": [
+      "Iloilo City"
+    ],
+    "Negros Occidental": [
+      "Bacolod",
+      "Bago"
+    ]
+  },
+  "Central Visayas": {
+    "Bohol": [
+      "Tagbilaran"
+    ],
+    "Cebu": [
+      "Cebu City",
+      "Mandaue",
+      "Lapu-Lapu"
+    ],
+    "Siquijor": [
+      "Siquijor"
+    ]
+  },
+  "Eastern Visayas": {
+    "Biliran": ["Naval"],
+    "Eastern Samar": ["Borongan"],
+    "Leyte": ["Tacloban", "Ormoc"],
+    "Northern Samar": ["Catarman"],
+    "Samar": ["Calbayog"],
+    "Southern Leyte": ["Maasin"]
+  },
+  "Zamboanga Peninsula": {
+    "Zamboanga del Norte": ["Dipolog", "Dapitan"],
+    "Zamboanga del Sur": ["Zamboanga City"],
+    "Zamboanga Sibugay": ["Iligan"]
+  },
+  "Northern Mindanao": {
+    "Bukidnon": ["Malaybalay", "Valencia"],
+    "Camiguin": ["Mambajao"],
+    "Lanao del Norte": ["Iligan"],
+    "Misamis Occidental": ["Ozamiz"],
+    "Misamis Oriental": ["Cagayan de Oro"]
+  },
+  "Davao Region": {
+    "Davao de Oro": ["Mabini"],
+    "Davao del Norte": ["Tagum"],
+    "Davao del Sur": ["Davao City"],
+    "Davao Oriental": ["Borongan"]
+  },
+  "Soccsksargen": {
+    "Cotabato": ["Kidapawan"],
+    "Sarangani": ["Alabel"],
+    "South Cotabato": ["Koronadal"],
+    "Sultan Kudarat": ["Isulan"]
+  },
+  "CAR": {
+    "Abra": ["Bangued"],
+    "Apayao": ["Kabugao"],
+    "Benguet": ["Baguio"],
+    "Ifugao": ["Lagawe"],
+    "Kalinga": ["Tabuk"],
+    "Mountain Province": ["Bontoc"]
+  },
+  "BARMM": {
+    "Basilan": ["Isabela"],
+    "Lanao del Sur": ["Marawi"],
+    "Maguindanao del Norte": ["Buluan"],
+    "Maguindanao del Sur": ["Datu Odin Sinsuat"],
+    "Tawi‑Tawi": ["Bongao"]
+  }
+}
