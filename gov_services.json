@@ -1,0 +1,137 @@
+[
+  {
+    "agency": "Social Security System (SSS)",
+    "services": [
+      {
+        "name": "SSS Online Portal",
+        "description": "Access membership details, contributions, loans, and benefits.",
+        "url": "https://www.sss.gov.ph"
+      },
+      {
+        "name": "SSS Contribution Inquiry",
+        "description": "Check your SSS contributions and payment history.",
+        "url": "https://www.sss.gov.ph/sss/appmanager/pages/eb/benefits/contributioninquiry"
+      }
+    ]
+  },
+  {
+    "agency": "Philippine Health Insurance Corporation (PhilHealth)",
+    "services": [
+      {
+        "name": "PhilHealth Member Portal",
+        "description": "Check PhilHealth membership, contributions and claims.",
+        "url": "https://www.philhealth.gov.ph"
+      },
+      {
+        "name": "PhilHealth Eligibility Inquiry",
+        "description": "Verify your PhilHealth eligibility and coverage.",
+        "url": "https://www.philhealth.gov.ph/eligibility"
+      }
+    ]
+  },
+  {
+    "agency": "Home Development Mutual Fund (Pag-IBIG Fund)",
+    "services": [
+      {
+        "name": "Pag-IBIG Online Services",
+        "description": "Housing loans, MP2 savings, and membership services.",
+        "url": "https://www.pagibigfund.gov.ph"
+      },
+      {
+        "name": "Pag-IBIG Virtual Pag-IBIG",
+        "description": "Manage your Pag-IBIG account online.",
+        "url": "https://virtual.pagibigfund.gov.ph"
+      }
+    ]
+  },
+  {
+    "agency": "National Bureau of Investigation (NBI)",
+    "services": [
+      {
+        "name": "NBI Clearance",
+        "description": "Apply for NBI clearance online.",
+        "url": "https://clearance.nbi.gov.ph"
+      }
+    ]
+  },
+  {
+    "agency": "Philippine Statistics Authority (PSA)",
+    "services": [
+      {
+        "name": "PSA Helpline",
+        "description": "Request PSA birth, marriage, or death certificates online.",
+        "url": "https://psahelpline.ph"
+      }
+    ]
+  },
+  {
+    "agency": "Bureau of Internal Revenue (BIR)",
+    "services": [
+      {
+        "name": "BIR Online Services",
+        "description": "Taxpayer registration, TIN application, and other BIR services.",
+        "url": "https://www.bir.gov.ph"
+      }
+    ]
+  },
+  {
+    "agency": "Land Transportation Office (LTO)",
+    "services": [
+      {
+        "name": "LTO Online Portal",
+        "description": "Driver’s license applications and renewals, vehicle registration, etc.",
+        "url": "https://portal.lto.gov.ph"
+      }
+    ]
+  },
+  {
+    "agency": "Philippine Identification System (PhilSys)",
+    "services": [
+      {
+        "name": "PhilSys National ID",
+        "description": "National ID registration and tracking services.",
+        "url": "https://philsys.gov.ph"
+      }
+    ]
+  },
+  {
+    "agency": "Land Transportation Franchising & Regulatory Board (LTFRB)",
+    "services": [
+      {
+        "name": "LTFRB Online Passenger Assistance System (OPAS)",
+        "description": "Report public transportation issues and track complaints.",
+        "url": "https://www.ltfrb.gov.ph"
+      }
+    ]
+  },
+  {
+    "agency": "Department of Foreign Affairs (DFA)",
+    "services": [
+      {
+        "name": "DFA Passport Appointment",
+        "description": "Schedule appointments for passport services.",
+        "url": "https://www.passport.gov.ph"
+      }
+    ]
+  },
+  {
+    "agency": "Philippine Overseas Employment Administration (POEA)",
+    "services": [
+      {
+        "name": "POEA Online Services",
+        "description": "Overseas employment processing and deployment verification.",
+        "url": "https://www.poea.gov.ph"
+      }
+    ]
+  },
+  {
+    "agency": "Department of Labor and Employment (DOLE)",
+    "services": [
+      {
+        "name": "DOLE Online Services",
+        "description": "Labor-related registrations and inquiries.",
+        "url": "https://www.dole.gov.ph"
+      }
+    ]
+  }
+]
