@@ -3,207 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PH Gov Tools | All Philippine LGUs</title>
-
-<meta name="description" content="Complete list of Philippine provinces, cities, and municipalities with auto-detect location and LGU services.">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+<title>PH Gov Tools | All LGUs</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
-body{background:#f4f8fc;color:#333}
-header{background:linear-gradient(135deg,#0038a8,#ce1126);color:#fff;padding:50px 20px;text-align:center}
-header h1{font-size:2.4rem}
-header p{opacity:.95}
-
-.container{max-width:1200px;margin:auto;padding:40px 20px}
-
-.notice{
-  background:#fff3cd;padding:15px;border-radius:12px;
-  margin-bottom:25px;font-size:.9rem
-}
-
-.controls{
-  display:flex;gap:15px;flex-wrap:wrap;margin-bottom:30px
-}
-select,button{
-  padding:14px;border-radius:30px;border:none;
-  box-shadow:0 10px 25px rgba(0,0,0,.1)
-}
-button{background:#0038a8;color:#fff;cursor:pointer}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:25px
-}
-
-.card{
-  background:#fff;padding:25px;border-radius:15px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08)
-}
-.card h3{color:#ce1126;margin-bottom:10px}
-.card ul{margin-left:18px}
-.card li{cursor:pointer;margin-bottom:6px}
-.card li:hover{text-decoration:underline}
-
-.service{
-  background:#fff;padding:25px;border-radius:15px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08)
-}
-
-footer{
-  background:#111;color:#aaa;
-  text-align:center;padding:20px;margin-top:50px
-}
+body{font-family:sans-serif;margin:20px;}
+h1{color:#0038a8;}
+select{padding:10px;border-radius:8px;width:100%;margin-bottom:10px;}
+li{cursor:pointer;margin-bottom:4px;}
+li:hover{text-decoration:underline;}
 </style>
 </head>
-
 <body>
 
-<header>
-<h1>🇵🇭 PH Gov Tools</h1>
-<p>Complete Philippine LGU Directory with Auto-Location</p>
-</header>
+<h1>📍 Philippines Local Government Units</h1>
 
-<div class="container">
-
-<div class="notice">
-📌 This directory follows the official PSA structure:
-Regions → Provinces → Cities / Municipalities
-</div>
-
-<div class="controls">
-<select id="regionSelect" onchange="loadProvinces()">
-<option value="">Select Region</option>
-<option value="NCR">NCR</option>
-<option value="Luzon">Luzon</option>
-<option value="Visayas">Visayas</option>
-<option value="Mindanao">Mindanao</option>
+<select id="regionSelect" onchange="onRegionChange()">
+  <option value="">Select Region</option>
 </select>
 
-<select id="provinceSelect" onchange="loadCities()">
-<option value="">Select Province</option>
+<select id="provinceSelect" onchange="onProvinceChange()" disabled>
+  <option value="">Select Province</option>
 </select>
 
-<button onclick="detectLocation()">📍 Auto-Detect My Location</button>
-</div>
-
-<div id="cityContainer" class="grid"></div>
-
-<h2 style="text-align:center;color:#0038a8;margin:50px 0 15px">🏛 LGU Services</h2>
-<div id="serviceContainer" class="grid"></div>
-
-</div>
-
-<footer>
-© 2026 PH Gov Tools | Not affiliated with the Philippine Government
-</footer>
+<ul id="cityList"></ul>
 
 <script>
-/* COMPLETE STRUCTURE (Expandable) */
-const phData={
-  NCR:{
-    "Metro Manila":[
-      "Manila","Quezon City","Caloocan","Las Piñas","Makati","Malabon",
-      "Mandaluyong","Marikina","Muntinlupa","Navotas","Parañaque",
-      "Pasay","Pasig","Pateros","San Juan","Taguig","Valenzuela"
-    ]
-  },
-  Luzon:{
-    "Abra":["Bangued"],
-    "Albay":["Legazpi","Ligao","Tabaco"],
-    "Benguet":["Baguio"],
-    "Bulacan":["Malolos","Meycauayan","San Jose del Monte"],
-    "Cavite":["Bacoor","Imus","Dasmariñas","Tagaytay"],
-    "Laguna":["Calamba","Biñan","Santa Rosa","San Pablo"],
-    "Pampanga":["Angeles","San Fernando"],
-    "Pangasinan":["Dagupan","Alaminos"],
-    "Rizal":["Antipolo"]
-    /* ALL other Luzon provinces can be added here */
-  },
-  Visayas:{
-    "Cebu":["Cebu City","Mandaue","Lapu-Lapu","Talisay"],
-    "Iloilo":["Iloilo City","Passi"],
-    "Negros Occidental":["Bacolod","Bago","Cadiz"],
-    "Leyte":["Tacloban","Ormoc"],
-    "Bohol":["Tagbilaran"]
-  },
-  Mindanao:{
-    "Davao del Sur":["Davao City"],
-    "Misamis Oriental":["Cagayan de Oro","Gingoog"],
-    "Bukidnon":["Malaybalay","Valencia"],
-    "Zamboanga del Sur":["Zamboanga City"],
-    "South Cotabato":["Koronadal"]
-  }
-};
+let lguData = {};
 
-/* LOADERS */
-function loadProvinces(){
-  const r=document.getElementById("regionSelect").value;
-  const p=document.getElementById("provinceSelect");
-  p.innerHTML='<option value="">Select Province</option>';
-  document.getElementById("cityContainer").innerHTML="";
-  if(!r)return;
-  Object.keys(phData[r]).forEach(prov=>{
-    p.innerHTML+=`<option value="${prov}">${prov}</option>`;
+fetch("lgus.json")
+  .then(response => response.json())
+  .then(json => {
+    lguData = json;
+    populateRegions();
+  });
+
+function populateRegions() {
+  const sel = document.getElementById("regionSelect");
+  Object.keys(lguData).forEach(r => {
+    const opt = document.createElement("option");
+    opt.value = r;
+    opt.text = r;
+    sel.add(opt);
   });
 }
 
-function loadCities(){
-  const r=document.getElementById("regionSelect").value;
-  const p=document.getElementById("provinceSelect").value;
-  const c=document.getElementById("cityContainer");
-  c.innerHTML="";
-  if(!p)return;
-  phData[r][p].forEach(city=>{
-    c.innerHTML+=`
-    <div class="card">
-      <h3>${city}</h3>
-      <ul>
-        <li onclick="loadService('${city}')">Barangay Clearance</li>
-        <li onclick="loadService('${city}')">Business Permit</li>
-        <li onclick="loadService('${city}')">Cedula</li>
-        <li onclick="loadService('${city}')">Mayor’s Permit</li>
-      </ul>
-    </div>`;
+function onRegionChange() {
+  const region = document.getElementById("regionSelect").value;
+  const provSel = document.getElementById("provinceSelect");
+  provSel.innerHTML = "<option value=''>Select Province</option>";
+  provSel.disabled = !region;
+  document.getElementById("cityList").innerHTML = "";
+  if (!region) return;
+  Object.keys(lguData[region]).forEach(p => {
+    const opt = document.createElement("option");
+    opt.value = p;
+    opt.text = p;
+    provSel.add(opt);
   });
 }
 
-function loadService(city){
-  const s=document.getElementById("serviceContainer");
-  s.innerHTML=`
-  <div class="service">
-    <h3>${city} LGU Services</h3>
-    <p>Common LGU services available in ${city}.</p>
-    <ul>
-      <li>Barangay Clearance</li>
-      <li>Business Permit</li>
-      <li>Cedula</li>
-      <li>Mayor’s Permit</li>
-    </ul>
-    <p><strong>Tip:</strong> Bring valid ID and proof of address.</p>
-  </div>`;
-}
-
-/* GEOLOCATION */
-function detectLocation(){
-  if(!navigator.geolocation){
-    alert("Geolocation not supported.");
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(
-    pos=>{
-      alert(
-        "Location detected!\nLatitude: "+pos.coords.latitude+
-        "\nLongitude: "+pos.coords.longitude+
-        "\n\n(You can map this to LGU via API later)"
-      );
-    },
-    ()=>{
-      alert("Location access denied. Please select manually.");
-    }
-  );
+function onProvinceChange() {
+  const region = document.getElementById("regionSelect").value;
+  const prov = document.getElementById("provinceSelect").value;
+  const list = document.getElementById("cityList");
+  list.innerHTML = "";
+  if (!prov) return;
+  lguData[region][prov].forEach(city => {
+    const li = document.createElement("li");
+    li.textContent = city;
+    list.appendChild(li);
+  });
 }
 </script>
 
