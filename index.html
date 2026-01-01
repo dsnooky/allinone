@@ -3,52 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PH Gov Tools | LGU & Services</title>
+<title>PH Gov Tools | LGU & Online Services</title>
 <style>
-body{font-family:sans-serif;margin:20px;background:#f4f8fc;color:#333;}
-h1,h2{color:#0038a8;margin-bottom:10px;}
-select{padding:10px;border-radius:8px;width:100%;margin-bottom:10px;}
-ul{list-style:none;padding-left:0;}
-li{cursor:pointer;margin-bottom:4px;padding:6px 10px;border-radius:6px;}
-li:hover{text-decoration:underline;background:#e2e8f0;}
-.card{background:#fff;padding:15px;border-radius:10px;margin-bottom:15px;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
-.card h3{color:#ce1126;margin-bottom:8px;}
+/* Reset & base */
+* {box-sizing: border-box; margin:0; padding:0;}
+body {font-family: 'Poppins', sans-serif; background:#f0f4f8; color:#333; padding:15px;}
+h1,h2,h3{color:#0038a8;margin-bottom:12px; text-align:center;}
+p{margin-bottom:20px;text-align:center;}
+select{padding:12px;border-radius:8px;width:100%;margin-bottom:12px; border:1px solid #ccc; transition:0.3s;}
+select:focus{border-color:#0038a8; outline:none;}
+ul{list-style:none;padding-left:0; max-height:300px; overflow-y:auto; margin-bottom:20px;}
+li{cursor:pointer;margin-bottom:6px;padding:8px 12px;border-radius:6px; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.05); transition:0.3s;}
+li:hover{background:#0038a8; color:#fff; transform:translateX(5px);}
+.card{background:#fff;padding:20px;border-radius:12px;margin-bottom:18px;box-shadow:0 6px 15px rgba(0,0,0,0.08); opacity:0; transform:translateY(20px); animation:fadeInUp 0.5s forwards;}
+.card h3{color:#ce1126;margin-bottom:10px;}
 .card a{color:#0038a8;text-decoration:none;}
 .card a:hover{text-decoration:underline;}
+#servicesContainer, #analyticsContainer{margin-top:20px;}
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+th,td{border:1px solid #ccc;padding:8px;text-align:left; transition: background 0.3s;}
+th{background:#e0ebff;position: sticky; top:0; z-index:2;}
+tr:hover td{background:#dbe7ff;}
+@keyframes fadeInUp{
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* Responsive layout */
+@media (min-width: 768px){
+  #mainContainer{display:flex; gap:20px;}
+  #selectors, #cityListContainer{flex:1;}
+}
 </style>
 </head>
 <body>
 
 <h1>🇵🇭 PH Gov Tools</h1>
-<p>Regions, Provinces, Cities, and Online Government Services</p>
+<p>Select your region, province, and city to view LGU and government online services.</p>
 
-<h2>Select Region & Province</h2>
-<select id="regionSelect" onchange="onRegionChange()">
-  <option value="">Select Region</option>
-</select>
+<div id="mainContainer">
+  <div id="selectors">
+    <h2>Select Region & Province</h2>
+    <select id="regionSelect" onchange="onRegionChange()">
+      <option value="">Select Region</option>
+    </select>
 
-<select id="provinceSelect" onchange="onProvinceChange()" disabled>
-  <option value="">Select Province</option>
-</select>
+    <select id="provinceSelect" onchange="onProvinceChange()" disabled>
+      <option value="">Select Province</option>
+    </select>
+  </div>
 
-<h2>Cities / Municipalities</h2>
-<ul id="cityList"></ul>
+  <div id="cityListContainer">
+    <h2>Cities / Municipalities</h2>
+    <ul id="cityList"></ul>
+  </div>
+</div>
 
 <h2>Government Online Services</h2>
 <div id="servicesContainer"></div>
 
+<h2>Analytics Dashboard</h2>
+<div id="analyticsContainer">
+<table>
+  <thead>
+    <tr>
+      <th>Region</th>
+      <th>Province</th>
+      <th>City</th>
+      <th>Visits</th>
+    </tr>
+  </thead>
+  <tbody id="analyticsTableBody"></tbody>
+</table>
+</div>
+
 <script>
+// Global variables
 let lguData = {};
 let govServices = [];
 
 // Load LGUs
 fetch("lgus.json")
   .then(res => res.json())
-  .then(json => {
-    lguData = json;
-    populateRegions();
-  });
+  .then(json => { lguData = json; populateRegions(); });
 
+// Load government services
+fetch("gov_services.json")
+  .then(res => res.json())
+  .then(json => { govServices = json; });
+
+// Populate regions
 function populateRegions() {
   const sel = document.getElementById("regionSelect");
   Object.keys(lguData).forEach(r => {
@@ -59,13 +102,14 @@ function populateRegions() {
   });
 }
 
+// Region change
 function onRegionChange() {
   const region = document.getElementById("regionSelect").value;
   const provSel = document.getElementById("provinceSelect");
   provSel.innerHTML = "<option value=''>Select Province</option>";
   provSel.disabled = !region;
   document.getElementById("cityList").innerHTML = "";
-  if (!region) return;
+  if(!region) return;
   Object.keys(lguData[region]).forEach(p => {
     const opt = document.createElement("option");
     opt.value = p;
@@ -74,30 +118,41 @@ function onRegionChange() {
   });
 }
 
+// Province change
 function onProvinceChange() {
   const region = document.getElementById("regionSelect").value;
   const prov = document.getElementById("provinceSelect").value;
   const cityList = document.getElementById("cityList");
   cityList.innerHTML = "";
-  if (!prov) return;
+  if(!prov) return;
   lguData[region][prov].forEach(city => {
     const li = document.createElement("li");
     li.textContent = city;
-    li.onclick = () => showServices(city);
+    li.onclick = () => showServices(city, region, prov);
     cityList.appendChild(li);
   });
 }
 
-// Load government services JSON
-fetch("gov_services.json")
-  .then(res => res.json())
-  .then(json => {
-    govServices = json;
-  });
-
-function showServices(city) {
+// Show LGU & online services, track analytics
+function showServices(city, region, province) {
   const container = document.getElementById("servicesContainer");
-  container.innerHTML = `<h3>Online Services for ${city}</h3>`;
+  container.innerHTML = `<h3>Services for ${city}</h3>`;
+
+  // LGU services
+  const lguCard = document.createElement("div");
+  lguCard.className = "card";
+  lguCard.innerHTML = `
+    <h3>${city} LGU Services</h3>
+    <ul>
+      <li>Barangay Clearance</li>
+      <li>Business Permit</li>
+      <li>Cedula</li>
+      <li>Mayor's Permit</li>
+    </ul>
+  `;
+  container.appendChild(lguCard);
+
+  // Government services
   govServices.forEach(agency => {
     const card = document.createElement("div");
     card.className = "card";
@@ -109,7 +164,35 @@ function showServices(city) {
     card.innerHTML = html;
     container.appendChild(card);
   });
+
+  // Animate cards
+  document.querySelectorAll(".card").forEach((c,i)=>{
+    c.style.animationDelay = (i*0.1)+"s";
+  });
+
+  // Analytics tracking
+  const key = `analytics_${region}_${province}_${city}`;
+  let count = parseInt(localStorage.getItem(key) || "0");
+  count++;
+  localStorage.setItem(key,count);
+  renderAnalytics();
 }
+
+// Render analytics
+function renderAnalytics(){
+  const tbody = document.getElementById("analyticsTableBody");
+  tbody.innerHTML = "";
+  for(let k in localStorage){
+    if(!k.startsWith("analytics_")) continue;
+    const count = localStorage.getItem(k);
+    const parts = k.replace("analytics_","").split("_");
+    const row = `<tr><td>${parts[0]}</td><td>${parts[1]}</td><td>${parts[2]}</td><td>${count}</td></tr>`;
+    tbody.innerHTML += row;
+  }
+}
+
+// Initial render
+renderAnalytics();
 </script>
 
 </body>
