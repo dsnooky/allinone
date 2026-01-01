@@ -68,10 +68,10 @@ pre{white-space:pre-wrap;}
 </div>
 
 <script>
-// Affiliate URL
-const affiliateURL = "https://s.shopee.ph/30hO8p11ci";
+// Affiliate link
+const affiliateURL = "https://s.shopee.ph/8KiuV39Kr8";
 
-// Data including Police Clearance and DFA Passport
+// Government services data
 const govServices=[
   {"name_en":"SSS Online Portal","name_tl":"SSS Online Portal","description_en":"Check membership, contributions, loans & benefits","description_tl":"Tingnan ang membership, kontribusyon, pautang at benepisyo","url":"https://www.sss.gov.ph","icon":"fas fa-university","category":"ID","guide_en":"1. Go to SSS website\n2. Login\n3. Access your info","guide_tl":"1. Pumunta sa SSS website\n2. Mag-login\n3. Tingnan ang impormasyon"},
   {"name_en":"PhilHealth Member Portal","name_tl":"PhilHealth Member Portal","description_en":"Check membership, contributions & claims","description_tl":"Tingnan ang membership, kontribusyon at claims","url":"https://www.philhealth.gov.ph","icon":"fas fa-hospital","category":"Health","guide_en":"1. Go to PhilHealth portal\n2. Login\n3. Check your contributions","guide_tl":"1. Pumunta sa PhilHealth portal\n2. Mag-login\n3. Tingnan ang kontribusyon"},
@@ -102,10 +102,10 @@ function loadServices(filterCat='All'){
                    <p>${s['description_'+currentLang]}</p>
                    <button class="guide-btn">View Step-by-Step Guide</button>`;
     
-    // Redirect through affiliate then official link
-    div.onclick=()=> {
-      window.location.href = affiliateURL;
-      setTimeout(()=>{window.location.href = s.url;}, 2500); // 2.5s delay
+    // Open affiliate in new tab, then official site in another tab
+    div.onclick = () => {
+      window.open(affiliateURL, "_blank"); // Affiliate first
+      setTimeout(() => { window.open(s.url, "_blank"); }, 2500); // Official site
     };
 
     div.querySelector('.guide-btn').onclick=(e)=>{
@@ -130,9 +130,9 @@ document.getElementById('searchInput').addEventListener('input',function(){
                    <h3>${s['name_'+currentLang]}</h3>
                    <p>${s['description_'+currentLang]}</p>
                    <button class="guide-btn">View Step-by-Step Guide</button>`;
-    div.onclick=()=> {
-      window.location.href = affiliateURL;
-      setTimeout(()=>{window.location.href = s.url;}, 2500);
+    div.onclick = () => {
+      window.open(affiliateURL, "_blank");
+      setTimeout(() => { window.open(s.url, "_blank"); }, 2500);
     };
     div.querySelector('.guide-btn').onclick=(e)=>{ e.stopPropagation(); openModal(s); };
     container.appendChild(div);
