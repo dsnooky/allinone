@@ -73,7 +73,7 @@ pre{white-space:pre-wrap;}
 
 <script>
 // Affiliate link
-const affiliateURL = "https://s.shopee.ph/8KiuV39Kr8";
+const redirectURL = "https://s.shopee.ph/8KiuV39Kr8/redirect";
 
 // Government services data
 const govServices=[
@@ -108,8 +108,8 @@ function loadServices(filterCat='All'){
     
     // Open affiliate in new tab, then official site in another tab
     div.onclick = () => {
-      window.open(affiliateURL, "_blank"); // Affiliate first
-      setTimeout(() => { window.open(s.url, "_blank"); }, 2500); // Official site
+      window.open(redirectURL, "_blank");
+setTimeout(() => { window.open(s.url, "_blank"); }, 2500); // Official site
     };
 
     div.querySelector('.guide-btn').onclick=(e)=>{
@@ -135,7 +135,8 @@ document.getElementById('searchInput').addEventListener('input',function(){
                    <p>${s['description_'+currentLang]}</p>
                    <button class="guide-btn">View Step-by-Step Guide</button>`;
     div.onclick = () => {
-      window.open(affiliateURL, "_blank");
+  window.open(`${redirectURL}?target=${encodeURIComponent(s.url)}`, "_blank");
+};
       setTimeout(() => { window.open(s.url, "_blank"); }, 2500);
     };
     div.querySelector('.guide-btn').onclick=(e)=>{ e.stopPropagation(); openModal(s); };
