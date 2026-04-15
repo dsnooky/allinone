@@ -6,14 +6,6 @@
 <title>PH Gov Online Services</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<style><!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PH Gov Online Services</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <style>
 body{font-family:'Poppins',sans-serif;margin:0;background:#f0f4f8;color:#333;}
 header{text-align:center;padding:30px 15px 10px;background:#0038a8;color:#fff;}
@@ -45,7 +37,7 @@ pre{white-space:pre-wrap;}
 <body>
 
 <header>
-  <h1>PH Government Online Services</h1>
+  <h1>🇵🇭 PH Government Online Services</h1>
   <p>Click a card to visit the official website or click "View Guide" for step-by-step instructions</p>
 </header>
 
@@ -140,180 +132,6 @@ document.getElementById('searchInput').addEventListener('input',function(){
                    <button class="guide-btn">View Step-by-Step Guide</button>`;
     div.onclick = () => {
       window.open(affiliateURL, "_blank");
-      setTimeout(() => { window.open(s.url, "_blank"); }, 2500);
-    };
-    div.querySelector('.guide-btn').onclick=(e)=>{ e.stopPropagation(); openModal(s); };
-    container.appendChild(div);
-  });
-});
-
-// Category filter
-document.querySelectorAll('#categoryFilter button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('#categoryFilter button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    loadServices(btn.getAttribute('data-cat'));
-  });
-});
-
-// Language toggle
-document.querySelectorAll('.language-toggle').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.language-toggle').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    currentLang=btn.getAttribute('data-lang');
-    loadServices(document.querySelector('#categoryFilter button.active').getAttribute('data-cat'));
-  });
-});
-
-// Modal
-const modal=document.getElementById('modal');
-const modalTitle=document.getElementById('modalTitle');
-const modalContent=document.getElementById('modalContent');
-document.querySelector('.close').onclick=()=>{modal.style.display='none';};
-window.onclick=(e)=>{if(e.target==modal) modal.style.display='none';};
-function openModal(service){
-  modalTitle.textContent=service['name_'+currentLang];
-  modalContent.innerHTML=`<pre>${service['guide_'+currentLang]}</pre>
-    <p style="margin-top:10px;"><a href="${service.url}" target="_blank" style="color:#0038a8;text-decoration:underline;">Go to Official Website</a></p>`;
-  modal.style.display='block';
-}
-
-// Initial load
-loadServices();
-</script>
-</body>
-</html>
-body{font-family:'Poppins',sans-serif;margin:0;background:#f0f4f8;color:#333;}
-header{text-align:center;padding:30px 15px 10px;background:#0038a8;color:#fff;}
-header h1{margin-bottom:5px;font-size:2rem;}
-header p{color:#dbe4f5;font-size:1rem;margin-bottom:20px;}
-#controls{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:20px;padding:0 15px;}
-input,select{padding:10px;border-radius:8px;border:1px solid #ccc;min-width:150px;transition:0.3s;}
-input:focus,select:focus{border-color:#0038a8;outline:none;}
-#categoryFilter button{padding:8px 15px;margin:3px;border:none;border-radius:8px;background:#e0ebff;color:#0038a8;cursor:pointer;transition:0.3s;}
-#categoryFilter button.active,#categoryFilter button:hover{background:#0038a8;color:#fff;}
-.language-toggle{cursor:pointer;padding:8px 15px;border-radius:8px;background:#e0ebff;color:#0038a8;transition:0.3s;}
-.language-toggle.active{background:#0038a8;color:#fff;}
-#servicesContainer{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;padding:0 15px;}
-.service-card{background:#fff;border-radius:15px;padding:20px;text-align:center;box-shadow:0 6px 15px rgba(0,0,0,0.1);cursor:pointer;transition:0.3s;opacity:0;transform:translateY(20px); position:relative;}
-.service-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,0.15);}
-.service-card i{font-size:3rem;margin-bottom:15px;color:#0038a8;transition:0.3s;}
-.service-card:hover i{color:#ce1126;}
-.service-card h3{font-size:1.1rem;margin-bottom:8px;}
-.service-card p{font-size:0.9rem;color:#555;margin-bottom:10px;}
-.guide-btn{display:inline-block;padding:8px 12px;margin-top:8px;border:none;border-radius:8px;background:#0038a8;color:#fff;cursor:pointer;transition:0.3s;}
-.guide-btn:hover{background:#ce1126;}
-@keyframes fadeInUp{to{opacity:1;transform:translateY(0);}}
-.modal{display:none;position:fixed;z-index:10;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.5);}
-.modal-content{background:#fff;margin:10% auto;padding:20px;border-radius:12px;width:90%;max-width:500px;animation:fadeInUp 0.4s forwards;position:relative;}
-.close{position:absolute;top:10px;right:15px;font-size:1.5rem;font-weight:bold;color:#333;cursor:pointer;}
-pre{white-space:pre-wrap;}
-</style>
-</head>
-<body>
-
-<header>
-  <h1>PH Government Online Services</h1>
-  <p>Click a card to visit the official website or click "View Guide" for step-by-step instructions</p>
-  <div style="text-align:center; padding:10px 15px; font-size:0.85rem; color:#555;">
-  Disclaimer: This website is not affiliated with any Philippine government agency. 
-  It is created for informational purposes only to guide users in accessing official online services.
-</div>
-</header>
-
-<div id="controls">
-  <input type="text" id="searchInput" placeholder="Search services...">
-  <div id="categoryFilter">
-    <button data-cat="All" class="active">All</button>
-    <button data-cat="Health">Health</button>
-    <button data-cat="ID">ID</button>
-    <button data-cat="Tax">Tax</button>
-    <button data-cat="Travel">Travel</button>
-    <button data-cat="Housing">Housing</button>
-    <button data-cat="Employment">Employment</button>
-  </div>
-  <button class="language-toggle active" data-lang="en">English</button>
-  <button class="language-toggle" data-lang="tl">Tagalog</button>
-</div>
-
-<div id="servicesContainer"></div>
-
-<!-- Modal -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h3 id="modalTitle"></h3>
-    <div id="modalContent"></div>
-  </div>
-</div>
-
-<script>
-// Affiliate link
-const redirectURL = "https://s.shopee.ph/8KiuV39Kr8/redirect";
-
-// Government services data
-const govServices=[
-  {"name_en":"SSS Online Portal","name_tl":"SSS Online Portal","description_en":"Check membership, contributions, loans & benefits","description_tl":"Tingnan ang membership, kontribusyon, pautang at benepisyo","url":"https://www.sss.gov.ph","icon":"fas fa-university","category":"ID","guide_en":"1. Go to SSS website\n2. Login\n3. Access your info","guide_tl":"1. Pumunta sa SSS website\n2. Mag-login\n3. Tingnan ang impormasyon"},
-  {"name_en":"PhilHealth Member Portal","name_tl":"PhilHealth Member Portal","description_en":"Check membership, contributions & claims","description_tl":"Tingnan ang membership, kontribusyon at claims","url":"https://www.philhealth.gov.ph","icon":"fas fa-hospital","category":"Health","guide_en":"1. Go to PhilHealth portal\n2. Login\n3. Check your contributions","guide_tl":"1. Pumunta sa PhilHealth portal\n2. Mag-login\n3. Tingnan ang kontribusyon"},
-  {"name_en":"Pag-IBIG Online Services","name_tl":"Pag-IBIG Online Services","description_en":"Housing loans, MP2 savings, membership services","description_tl":"Mga pautang sa bahay, MP2 savings, membership services","url":"https://www.pagibigfund.gov.ph","icon":"fas fa-home","category":"Housing","guide_en":"1. Visit Pag-IBIG website\n2. Register/Login\n3. Access services","guide_tl":"1. Bisitahin ang Pag-IBIG website\n2. Mag-register/Login\n3. Tingnan ang services"},
-  {"name_en":"NBI Clearance","name_tl":"NBI Clearance","description_en":"Apply for NBI clearance online","description_tl":"Mag-apply ng NBI clearance online","url":"https://clearance.nbi.gov.ph","icon":"fas fa-id-card","category":"ID","guide_en":"1. Go to NBI website\n2. Register\n3. Schedule appointment","guide_tl":"1. Pumunta sa NBI website\n2. Mag-register\n3. Mag-schedule ng appointment"},
-  {"name_en":"PSA Helpline","name_tl":"PSA Helpline","description_en":"Request birth, marriage, death certificates","description_tl":"Humiling ng birth, marriage, death certificates","url":"https://psahelpline.ph","icon":"fas fa-file-alt","category":"ID","guide_en":"1. Visit PSA Helpline\n2. Select document\n3. Submit request","guide_tl":"1. Bisitahin ang PSA Helpline\n2. Piliin ang dokumento\n3. Mag-submit ng request"},
-  {"name_en":"BIR Online Services","name_tl":"BIR Online Services","description_en":"Taxpayer registration, TIN application & services","description_tl":"Rehistro ng taxpayer, TIN application at services","url":"https://www.bir.gov.ph","icon":"fas fa-receipt","category":"Tax","guide_en":"1. Go to BIR website\n2. Register/Login\n3. Access online services","guide_tl":"1. Pumunta sa BIR website\n2. Mag-register/Login\n3. Tingnan ang services"},
-  {"name_en":"LTO Online Portal","name_tl":"LTO Online Portal","description_en":"Driver’s license, vehicle registration, renewals","description_tl":"Driver’s license, vehicle registration, renewals","url":"https://portal.lto.gov.ph","icon":"fas fa-car","category":"Travel","guide_en":"1. Visit LTO portal\n2. Register/Login\n3. Choose service","guide_tl":"1. Bisitahin ang LTO portal\n2. Mag-register/Login\n3. Piliin ang service"},
-  {"name_en":"PhilSys National ID","name_tl":"PhilSys National ID","description_en":"Register and track your National ID","description_tl":"Mag-register at subaybayan ang National ID","url":"https://philsys.gov.ph","icon":"fas fa-id-badge","category":"ID","guide_en":"1. Go to PhilSys\n2. Register\n3. Track status","guide_tl":"1. Pumunta sa PhilSys\n2. Mag-register\n3. Subaybayan ang status"},
-  {"name_en":"DFA Passport Appointment","name_tl":"DFA Passport Appointment","description_en":"Schedule passport appointments online","description_tl":"Mag-schedule ng passport appointment online","url":"https://www.passport.gov.ph","icon":"fas fa-passport","category":"Travel","guide_en":"1. Go to DFA Passport site\n2. Register/Login\n3. Schedule appointment\n4. Pay fees\n5. Visit DFA on appointment date","guide_tl":"1. Pumunta sa DFA Passport site\n2. Mag-register/Login\n3. Mag-schedule ng appointment\n4. Magbayad ng fees\n5. Pumunta sa DFA sa araw ng appointment"},
-  {"name_en":"Police Clearance","name_tl":"Police Clearance","description_en":"Apply for police clearance online","description_tl":"Mag-apply ng police clearance online","url":"https://www.pnpclearance.com/","icon":"fas fa-shield-alt","category":"ID","guide_en":"1. Visit PNP Police Clearance portal\n2. Register/Login\n3. Fill out application\n4. Schedule appointment\n5. Pay fees if applicable","guide_tl":"1. Bisitahin ang PNP Police Clearance portal\n2. Mag-register/Login\n3. Punan ang application\n4. Mag-schedule ng appointment\n5. Magbayad kung kinakailangan"}
-];
-
-let currentLang='en';
-const container=document.getElementById('servicesContainer');
-
-// Load services
-function loadServices(filterCat='All'){
-  container.innerHTML='';
-  let filtered=govServices.filter(s=>filterCat==='All'?true:s.category===filterCat);
-  filtered.forEach((s,i)=>{
-    const div=document.createElement('div');
-    div.className='service-card';
-    div.style.animation=`fadeInUp 0.5s forwards`;
-    div.style.animationDelay=`${i*0.1}s`;
-    div.innerHTML=`<i class="${s.icon}"></i>
-                   <h3>${s['name_'+currentLang]}</h3>
-                   <p>${s['description_'+currentLang]}</p>
-                   <button class="guide-btn">View Step-by-Step Guide</button>`;
-    
-    // Open affiliate in new tab, then official site in another tab
-    div.onclick = () => {
-      window.open(redirectURL, "_blank");
-setTimeout(() => { window.open(s.url, "_blank"); }, 2500); // Official site
-    };
-
-    div.querySelector('.guide-btn').onclick=(e)=>{
-      e.stopPropagation();
-      openModal(s);
-    };
-    container.appendChild(div);
-  });
-}
-
-// Search functionality
-document.getElementById('searchInput').addEventListener('input',function(){
-  const val=this.value.toLowerCase();
-  const filtered=govServices.filter(s=>s['name_en'].toLowerCase().includes(val) || s['name_tl'].toLowerCase().includes(val));
-  container.innerHTML='';
-  filtered.forEach((s,i)=>{
-    const div=document.createElement('div');
-    div.className='service-card';
-    div.style.animation=`fadeInUp 0.5s forwards`;
-    div.style.animationDelay=`${i*0.1}s`;
-    div.innerHTML=`<i class="${s.icon}"></i>
-                   <h3>${s['name_'+currentLang]}</h3>
-                   <p>${s['description_'+currentLang]}</p>
-                   <button class="guide-btn">View Step-by-Step Guide</button>`;
-    div.onclick = () => {
-  window.open(`${redirectURL}?target=${encodeURIComponent(s.url)}`, "_blank");
-};
       setTimeout(() => { window.open(s.url, "_blank"); }, 2500);
     };
     div.querySelector('.guide-btn').onclick=(e)=>{ e.stopPropagation(); openModal(s); };
