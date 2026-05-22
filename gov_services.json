@@ -58,13 +58,19 @@
     "agency": "Philippine Statistics Authority (PSA)",
     "services": [
       {
-        "name": "PSA Helpline",
-        "description": "Request PSA birth, marriage, or death certificates online.",
-        "url": "https://psahelpline.ph"
-      }
-    ]
-  },
-  {
+        {"name_en":"PSA Helpline","name_tl":"PSA Helpline","description_en":"Request birth, marriage, death certificates","description_tl":"Humiling ng birth, marriage, death certificates","url":"https://psahelpline.ph","icon":"fas fa-file-alt","category":"ID","guide_en":"1. Visit PSA Helpline\n2. Select document\n3. Submit request","guide_tl":"1. Bisitahin ang PSA Helpline\n2. Piliin ang dokumento\n3. Mag-submit ng request"},
+
+{
+  "name_en":"PSA Appointment System",
+  "name_tl":"PSA Appointment System",
+  "description_en":"Book PSA appointments for certificate requests and other services",
+  "description_tl":"Mag-book ng PSA appointment para sa certificate requests at iba pang serbisyo",
+  "url":"https://appointment.psa.gov.ph",
+  "icon":"fas fa-calendar-check",
+  "category":"ID",
+  "guide_en":"1. Visit the PSA Appointment website\n2. Choose your PSA service\n3. Select appointment date and branch\n4. Enter your personal details\n5. Confirm your appointment",
+  "guide_tl":"1. Bisitahin ang PSA Appointment website\n2. Piliin ang PSA service\n3. Pumili ng petsa at branch\n4. Ilagay ang personal na detalye\n5. I-confirm ang appointment"
+},
     "agency": "Bureau of Internal Revenue (BIR)",
     "services": [
       {
